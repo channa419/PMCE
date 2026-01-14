@@ -80,7 +80,7 @@ local_files_only=True
 
 # 2 Pretrained Weights and Semantic Files
 
-The pre-trained weights for the **Swin-Tiny** backbone (trained on MiniImageNet), the semantic features, and the pre-computed **Base Priors** are already included in this repository. 
+The pre-trained weights for the **Swin-Tiny**/**Resnet12** backbone (trained on MiniImageNet), the semantic features, and the pre-computed **Base Priors** are already included in this repository. 
 
 # 3 Start
 Please execute the following commands in sequence.
