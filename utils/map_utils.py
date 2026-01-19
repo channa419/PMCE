@@ -75,6 +75,7 @@ def MAP_estimation_semantic(
     alpha: float = 0.33,
     beta: float = 0.9,
     cov_bias: float = 0.01,
+    tau: float = 1.0,
     use_semantic: bool = False,
     support_weights: Optional[ArrayLike] = None,
 ) -> Tuple[np.ndarray, np.ndarray]:
@@ -125,12 +126,30 @@ def MAP_estimation_semantic(
         diff = base_means_2d - support_image[None, :]
         dist = np.sum(diff ** 2, axis=-1)
 
-    index = np.argpartition(dist, topk - 1)[:topk]
+    
 
-    # Base proir --> mean / cov
+    # Base proir --> mean / cov    average
+    index = np.argpartition(dist, topk - 1)[:topk]
     mu_p = base_means_2d[index].mean(axis=0)
-    base_cov_arr = np.asarray(base_cov, dtype=np.float64)
+    
     sigma_p_mean = base_cov_arr[index].mean(axis=0)
+    base_cov_arr = np.asarray(base_cov, dtype=np.float64)
+
+
+    # Base proir --> mean / cov  aggregate
+    # index = np.argpartition(dist, topk - 1)[:topk]
+    
+    # selected_dist = dist[index]
+    # scores = (-selected_dist) / tau
+    # weights = np.exp(scores - np.max(scores))
+    # weights = weights / (weights.sum() + 1e-12) # [TopK,]
+    # mu_p = (base_means_2d[index] * weights[:, None]).sum(axis=0)
+    
+    # base_cov_arr = np.asarray(base_cov, dtype=np.float64)
+    # sigma_p_mean = (base_cov_arr[index] * weights.reshape(-1, 1, 1) if base_cov_arr.ndim == 3 
+    #                 else base_cov_arr[index] * weights[:, None]).sum(axis=0)
+    
+    
 
    
     alpha_eff, beta_eff = float(alpha), float(beta)
