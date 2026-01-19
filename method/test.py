@@ -219,6 +219,7 @@ if __name__ == '__main__':
                     base_means=base_means, base_cov=base_cov,
                     topk=args.map_topk, Estimate_COV=args.map_estimate_cov,
                     alpha=args.map_alpha, beta=args.map_beta, cov_bias=args.map_cov_bias,
+                    tau=args.map_tau,
                     use_semantic=True
                 )
                 proto_list.append(torch.from_numpy(mu_s).float().to(device))
