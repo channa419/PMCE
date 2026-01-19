@@ -60,5 +60,6 @@ def add_map_args(parser):
         '--map_cov_bias', type=float, default=0.0,
         help='[MAP] Numerical stability bias added to the covariance diagonal cov_bias     default=0.05'
     )
+    parser.add_argument('--map_tau', type=float, default=1.0, help='Temperature for similarity-weighted MAP')
 
     return parser
