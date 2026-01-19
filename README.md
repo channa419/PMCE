@@ -5,7 +5,7 @@
 > 
 > We adopt single sentence embeddings here for practical storage efficiency, as token-level files are significantly larger. Our evaluations on *MiniImageNet* (Swin-T, 1-shot) demonstrate that both granularities yield consistent benefits.The results can be seen below:
 
-| Strategy | Token-level | Sentence Embedding |
+| Strategy | Sentence Embedding | Token-level |
 | :--- | :---: |:---: |
 | baseline | 71.02% | 71.02% |
 | baseline+Enh.(Support) | 75.50% | 74.93% |
