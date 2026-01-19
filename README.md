@@ -8,13 +8,13 @@
 
 | Strategy | Token-level | Sentence Embedding |
 | :--- | :---: |:---: |
-| baseline | ~71.02% |~71.02% |
-| baseline+Enh.(Support) | ~75.50% | ~74.93% |
-| baseline+Enh.(Query) | ~77.12% |~72.49% |
-| baseline+Enh.(Support+Query) | ~79.64% | ~79.42% |
-| baseline+MAP | ~74.93% | ~74.93% |
-| baseline+MAP+Enh.(Support) | ~75.50% | ~74.99% |
-| baseline+MAP+Enh.(Query) | ~77.12% | 77.17% |
+| baseline | 71.02% | 71.02% |
+| baseline+Enh.(Support) | 75.50% | 74.93% |
+| baseline+Enh.(Query) | 77.12% |72.49% |
+| baseline+Enh.(Support+Query) | 79.64% | 79.42% |
+| baseline+MAP | 74.93% | 74.93% |
+| baseline+MAP+Enh.(Support) | 75.50% | 74.99% |
+| baseline+MAP+Enh.(Query) | 77.12% | 77.17% |
 | **Sentence Embedding (this Repo)** | **85.29** | **85.03** |
 
 
