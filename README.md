@@ -14,7 +14,7 @@
 | baseline+MAP | 74.93% | 74.93% |
 | baseline+MAP+Enh.(Support) | 75.50% | 74.99% |
 | baseline+MAP+Enh.(Query) | 77.12% | 77.17% |
-| **Sentence Embedding (this Repo)** | **85.29** | **85.03** |
+| **baseline+MAP+Enh.(Support+Query)** | **85.29** | **85.03** |
 
 
 
