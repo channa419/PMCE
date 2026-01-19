@@ -10,7 +10,7 @@ We chose to primarily report and provide the sentence-level implementation rathe
 
 Our evaluations on *MiniImageNet* (Swin-T, 1-shot) demonstrate that both settings yield consistent benefits, with the sentence-level version offering a more efficient balance between performance and resource consumption. The results can be seen below:
 
-| Strategy | Token-level | Sentence Embedding |
+| Strategy | Token-level | Sentence-level |
 | :--- | :---: |:---: |
 | baseline | 71.02% | 71.02% |
 | baseline+Enh.(Support) | 72.20% | 72.18% |
