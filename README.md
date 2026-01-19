@@ -1,11 +1,11 @@
 # PMCE: Probabilistic Multi-Granularity Semantics with Caption-Guided Enhancement for Few-Shot Learning
 
 
-> This repository provide the PMCE version using **a single sentence embedding** ($1 \times 512$) for image captions, which is the primary setting reported in our paper. The core methodology focuses on using instance captions as label-free cues to enhance both query and support representations.
+> This repository provide the PMCE version using **a single sentence embedding** (1×512) for image captions, which is the primary setting reported in our paper. The core methodology focuses on using instance captions as label-free cues to enhance both query and support representations.
 
 
 We chose to primarily report and provide the sentence-level implementation rather than the token-level version due to the following practical considerations:
-* **Storage and Memory Constraints**: Token-level features ($77 \times 512$ per image) generate massive semantic files; for large-scale datasets like *TieredImageNet*, the storage requirement can reach several GBs per split.
+* **Storage and Memory Constraints**: Token-level features (7×512 per image) generate massive semantic files; for large-scale datasets like *TieredImageNet*, the storage requirement can reach several GBs per split.
 * **Computational Efficiency**: The token-level approach significantly increases inference latency and GPU memory usage because the Cross-Attention module must process much longer sequences—especially when concatenating support tokens in multi-shot scenarios.
 
 Our evaluations on *MiniImageNet* (Swin-T, 1-shot) demonstrate that both settings yield consistent benefits, with the sentence-level version offering a more efficient balance between performance and resource consumption. The results can be seen below:
