@@ -1,7 +1,6 @@
 # PMCE: Probabilistic Multi-Granularity Semantics with Caption-Guided Enhancement for Few-Shot Learning
 
 
-> **Implementation Note on Semantic Granularity**: 
 > This repository provide the PMCE version using **a single sentence embedding** ($1 \times 512$) for image captions. While our paper discusses **token-level hidden states** ($77 \times 512$), the core methodology remains identical: using instance captions as label-free cues to enhance both query and support representations. 
 > 
 > We adopt single sentence embeddings here for practical storage efficiency, as token-level files are significantly larger. Our evaluations on *MiniImageNet* (Swin-T, 1-shot) demonstrate that both granularities yield consistent benefits.The results can be seen below:
