@@ -6,7 +6,7 @@
 This is the official pytorch implementation of IJCAI 2026 paper ["PMCE: Probabilistic Multi-Granularity Semantics with Caption-Guided Enhancement for Few-Shot Learning"] [[paper]]() [[ArXiv]](https://arxiv.org/abs/2601.14111).
 
 <p align="center">
-  <img src="./pmce_framework_260511.png" alt="PMCE Framework" width="100%">
+  <img src="./pmce_framework_260511.png" alt="PMCE Framework" width="70%">
 </p>
 
 ## 🌟 Highlights
