@@ -128,12 +128,12 @@ def MAP_estimation_semantic(
 
     
 
-    # Base proir --> mean / cov    average
+    # Base prior --> mean / cov average
     index = np.argpartition(dist, topk - 1)[:topk]
     mu_p = base_means_2d[index].mean(axis=0)
-    
-    sigma_p_mean = base_cov_arr[index].mean(axis=0)
+
     base_cov_arr = np.asarray(base_cov, dtype=np.float64)
+    sigma_p_mean = base_cov_arr[index].mean(axis=0)
 
 
     # Base proir --> mean / cov  aggregate
