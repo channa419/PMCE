@@ -186,7 +186,8 @@ if __name__ == '__main__':
     log.info("Step 3: Starting Evaluation...")
     
     results = defaultdict(list)
-    label = torch.arange(args.test_way).repeat(args.query).type(torch.cuda.LongTensor).to(device)
+    # Matches CategoriesSampler interleaved query order: [q0_c0..cN, q1_c0..cN, ...]
+    label = torch.arange(args.test_way, device=device).repeat(args.query)
 
     with torch.no_grad():
         for batch in tqdm(val_loader):
@@ -203,10 +204,13 @@ if __name__ == '__main__':
 
             proto_visual = support.view(args.shot, args.test_way, -1).mean(dim=0)
             
+            # CategoriesSampler layout after stack().t().reshape(-1):
+            # [s0_c0, s0_c1, ..., s0_cN, s1_c0, ..., q0_c0, ...]
+            # so class-t appears at indices t, t+way, t+2*way, ...
             # --- MAP Calculation (Name_Name) ---
             proto_list = []
             for t in range(args.test_way):
-                global_idx = labels[t * args.shot].item()
+                global_idx = labels[t].item()
                 class_name = idx_to_class[global_idx]
                 
                 curr_supp_sem = novel_sem_clsname[class_name].cpu().numpy()
@@ -226,27 +230,30 @@ if __name__ == '__main__':
             map_proto = torch.stack(proto_list, dim=0)
 
             # --- Caption Enhancement ---
-            s_query_img = img_semantics[query_indices]
-            z_query_cap , _ = H_cap(s_query_img, query)
-            
-            s_support_img = img_semantics[support_indices]
-            s_proto_avg = s_support_img.view(args.shot, args.test_way, -1).mean(dim=0)
-            
-            z_proto_visual_cap , _ = H_cap(s_proto_avg, proto_visual)
-            z_map_proto_cap , _ = H_cap(s_proto_avg.float().contiguous(), map_proto.float().contiguous())
-
-            # --- Evaluation  ---
             strategies = {
-                'Baseline':          (proto_visual, query),
-                'MAP':               (map_proto, query),
-                'Phi_cap(S)':        (z_proto_visual_cap, query),
-                'Phi_cap(Q)':        (proto_visual, z_query_cap),
-                'Phi_cap(Both)':     (z_proto_visual_cap, z_query_cap),
-                'MAP+Phi_cap(S)':    (z_map_proto_cap, query),
-                'MAP+Phi_cap(Q)':    (map_proto, z_query_cap),
-                'MAP+Phi_cap(Both)': (z_map_proto_cap, z_query_cap)
+                'Baseline': (proto_visual, query),
+                'MAP': (map_proto, query),
             }
-            
+
+            if H_cap is not None:
+                s_query_img = img_semantics[query_indices]
+                z_query_cap, _ = H_cap(s_query_img, query)
+
+                s_support_img = img_semantics[support_indices]
+                s_proto_avg = s_support_img.view(args.shot, args.test_way, -1).mean(dim=0)
+
+                z_proto_visual_cap, _ = H_cap(s_proto_avg, proto_visual)
+                z_map_proto_cap, _ = H_cap(s_proto_avg.float().contiguous(), map_proto.float().contiguous())
+
+                strategies.update({
+                    'Phi_cap(S)':        (z_proto_visual_cap, query),
+                    'Phi_cap(Q)':        (proto_visual, z_query_cap),
+                    'Phi_cap(Both)':     (z_proto_visual_cap, z_query_cap),
+                    'MAP+Phi_cap(S)':    (z_map_proto_cap, query),
+                    'MAP+Phi_cap(Q)':    (map_proto, z_query_cap),
+                    'MAP+Phi_cap(Both)': (z_map_proto_cap, z_query_cap),
+                })
+
             for name, (p_s, p_q) in strategies.items():
                 acc = evaluate_classifier('LR', p_s, p_q, label, device)
                 results[name].append(acc)
@@ -264,7 +271,9 @@ if __name__ == '__main__':
              'MAP+Phi_cap(S)', 'MAP+Phi_cap(Q)', 'MAP+Phi_cap(Both)']
     
     for name in order:
-        accs = results[name]
+        accs = results.get(name, [])
+        if not accs:
+            continue
         m, ci = count_95acc(np.array(accs))
         log.info(f"{name:<25} | {m*100:.2f} +- {ci*100:.2f}%")
     
